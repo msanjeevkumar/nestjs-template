@@ -1,4 +1,3 @@
-
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
@@ -13,48 +12,38 @@ import { ApplicationModule } from '../../app.module';
  * the requirements.
  */
 describe('Passenger API', () => {
+  let app: INestApplication;
 
-    let app: INestApplication;
+  beforeAll(async () => {
+    const module = await Test.createTestingModule({
+      imports: [ApplicationModule]
+    }).compile();
 
-    beforeAll(async () => {
+    app = module.createNestApplication();
+    await app.init();
+  });
 
-        const module = await Test.createTestingModule({
-            imports: [ApplicationModule],
-        })
-        .compile();
+  afterAll(async () => app.close());
 
-        app = module.createNestApplication();
-        await app.init();
-    });
+  it('Should return empty passenger list', () =>
+    request(app.getHttpServer())
+      .get('/passengers')
+      .expect(HttpStatus.OK)
+      .then(response => {
+        expect(response.body).toBeInstanceOf(Array);
+        expect(response.body.length).toEqual(0);
+      }));
 
-    afterAll(async () =>
-        app.close()
-    );
-
-    it('Should return empty passenger list', () =>
-
-        request(app.getHttpServer())
-            .get('/passengers')
-            .expect(HttpStatus.OK)
-            .then(response => {
-                expect(response.body).toBeInstanceOf(Array);
-                expect(response.body.length).toEqual(0);
-            })
-    );
-
-    it('Should insert new passenger in the API', () =>
-
-        request(app.getHttpServer())
-            .post('/passengers')
-            .send({
-                firstName: 'John',
-                lastName: 'Doe'
-            })
-            .expect(HttpStatus.CREATED)
-            .then(response => {
-                expect(response.body.firstName).toEqual('John');
-                expect(response.body.lastName).toEqual('Doe');
-            })
-    );
-
+  it('Should insert new passenger in the API', () =>
+    request(app.getHttpServer())
+      .post('/passengers')
+      .send({
+        firstName: 'John',
+        lastName: 'Doe'
+      })
+      .expect(HttpStatus.CREATED)
+      .then(response => {
+        expect(response.body.firstName).toEqual('John');
+        expect(response.body.lastName).toEqual('Doe');
+      }));
 });

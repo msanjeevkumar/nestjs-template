@@ -1,13 +1,9 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended"
-  ],
+  "extends": ["tslint:recommended"],
   "rules": {
     "adjacent-overload-signatures": true,
-    "member-access": [
-      true
-    ],
+    "member-access": [true],
     "member-ordering": [
       true,
       {
@@ -43,10 +39,7 @@
     "promise-function-async": true,
     "await-promise": true,
     "ban-comma-operator": true,
-    "curly": [
-      true,
-      "ignore-same-line"
-    ],
+    "curly": [true, "ignore-same-line"],
     "forin": true,
     "no-unused-expression": true,
     "no-conditional-assignment": true,
@@ -55,10 +48,7 @@
     "no-var-keyword": true,
     "no-eval": true,
     "no-dynamic-delete": true,
-    "no-implicit-dependencies": [
-      true,
-      "dev"
-    ],
+    "no-implicit-dependencies": [true, "dev"],
     "no-floating-promises": true,
     "no-invalid-this": true,
     "no-return-await": true,
@@ -68,58 +58,28 @@
     "restrict-plus-operands": true,
     "triple-equals": true,
     "eofline": false,
-    "quotemark": [
-      true,
-      "single"
-    ],
+    "quotemark": [true, "single"],
     "prefer-const": true,
     "import-spacing": true,
     "no-consecutive-blank-lines": true,
-    "prefer-template": [
-      true,
-      "allow-single-concat"
-    ],
-    "semicolon": [
-      true,
-      "always"
-    ],
+    "prefer-template": [true, "allow-single-concat"],
+    "semicolon": [true, "always"],
     "prefer-readonly": true,
     "trailing-comma": false,
     "class-name": true,
-    "comment-format": [
-      true,
-      "check-space",
-      "check-uppercase"
-    ],
-    "ordered-imports": [
-      true
-    ],
+    "comment-format": [true, "check-space", "check-uppercase"],
+    "ordered-imports": [true],
     "no-default-export": true,
     "arrow-return-shorthand": true,
     "arrow-parens": false,
-    "max-line-length": [
-      true,
-      180
-    ],
-    "interface-name": [
-      false
-    ],
-    "array-type": [
-      false
-    ],
+    "max-line-length": [true, 180],
+    "interface-name": [false],
+    "array-type": [false],
     "no-empty": true,
     "object-literal-sort-keys": false,
-    "max-classes-per-file": [
-      true
-    ],
-    "variable-name": [
-      true
-    ],
-    "one-line": [
-      false
-    ],
-    "one-variable-per-declaration": [
-      false
-    ]
+    "max-classes-per-file": [true],
+    "variable-name": [true],
+    "one-line": [false],
+    "one-variable-per-declaration": [false]
   }
 }

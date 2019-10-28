@@ -1,0 +1,4 @@
+src/api/internals/scripts/seedDataGenerator.js
+.gitignore
+node_modules
+docs

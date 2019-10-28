@@ -1,4 +1,3 @@
-
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
@@ -17,42 +16,42 @@ const SWAGGER_DESCRIPTION = 'API used for passenger management';
 const SWAGGER_PREFIX = '/docs';
 
 async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(ApplicationModule);
 
-    const app = await NestFactory.create(ApplicationModule);
+  if (!process.env.SWAGGER_ENABLE || process.env.SWAGGER_ENABLE === '1') {
+    createSwagger(app);
+  }
 
-    if (!process.env.SWAGGER_ENABLE || process.env.SWAGGER_ENABLE === '1') {
-        createSwagger(app);
-    }
+  app.use(bodyParser.json());
+  app.use(helmet());
+  app.use(
+    cors({
+      origin: process.env.API_CORS || '*'
+    })
+  );
 
-    app.use(bodyParser.json());
-    app.use(helmet());
-    app.use(cors({
-        origin: process.env.API_CORS || '*'
-    }));
+  app.setGlobalPrefix(process.env.API_PREFIX || API_DEFAULT_PREFIX);
 
-    app.setGlobalPrefix(process.env.API_PREFIX || API_DEFAULT_PREFIX);
+  const logInterceptor = app.select(CommonModule).get(LogInterceptor);
+  app.useGlobalInterceptors(logInterceptor);
 
-    const logInterceptor = app.select(CommonModule).get(LogInterceptor);
-    app.useGlobalInterceptors(logInterceptor);
-
-    await app.listen(process.env.API_PORT || API_DEFAULT_PORT);
+  await app.listen(process.env.API_PORT || API_DEFAULT_PORT);
 }
 
 function createSwagger(app: INestApplication) {
+  const version = require('../package.json').version || '';
 
-    const version = require('../package.json').version || '';
+  const options = new DocumentBuilder()
+    .setTitle(SWAGGER_TITLE)
+    .setDescription(SWAGGER_DESCRIPTION)
+    .setVersion(version)
+    .setBasePath(process.env.API_PREFIX || API_DEFAULT_PREFIX)
+    .setSchemes('https', 'http')
+    .addBearerAuth('Bearer', 'header')
+    .build();
 
-    const options = new DocumentBuilder()
-        .setTitle(SWAGGER_TITLE)
-        .setDescription(SWAGGER_DESCRIPTION)
-        .setVersion(version)
-        .setBasePath(process.env.API_PREFIX || API_DEFAULT_PREFIX)
-        .setSchemes('https', 'http')
-        .addBearerAuth('Bearer', 'header')
-        .build();
-
-    const document = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup(SWAGGER_PREFIX, app, document);
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup(SWAGGER_PREFIX, app, document);
 }
 
 // tslint:disable-next-line:no-console

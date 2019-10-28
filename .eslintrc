@@ -1,0 +1,22 @@
+{
+    "rules": {
+        "no-console": 0,
+        "class-methods-use-this": 0,
+        "no-unused-vars": ["warn"],
+        "no-param-reassign": ["warn"],
+        "linebreak-style": ["error", "unix"]
+    },
+    "env": {
+        "node": true,
+        "mocha": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 2018
+    },
+    "extends": [
+        "airbnb-base",
+        "plugin:prettier/recommended"
+    ]
+}

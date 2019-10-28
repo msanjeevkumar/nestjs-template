@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -8,18 +7,9 @@ import { Passenger } from './model';
 import { PassengerService } from './service';
 
 @Module({
-    imports: [
-        CommonModule,
-        TypeOrmModule.forFeature([
-            Passenger
-        ])
-    ],
-    providers: [
-        PassengerService
-    ],
-    controllers: [
-        PassengerController
-    ],
-    exports: []
+  imports: [CommonModule, TypeOrmModule.forFeature([Passenger])],
+  providers: [PassengerService],
+  controllers: [PassengerController],
+  exports: []
 })
-export class PassengerModule { }
+export class PassengerModule {}

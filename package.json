@@ -11,11 +11,18 @@
     "dev": "env-cmd .env nodemon",
     "build": "npm run clean && tsc",
     "build:docker": "NODE_ENV=development npm install && npm run build",
-    "test": "env-cmd .env jest --config=jest.json --notify",
+    "test": "jest",
+    "format:staged": "pretty-quick --staged",
     "lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts'",
     "migration:create": "env-cmd .env rm -typeorm migration:create -n",
     "migration:run": "env-cmd .env ts-node ./node_modules/.bin/typeorm migration:run",
     "migration:revert": "env-cmd .env ts-node ./node_modules/.bin/typeorm migration:revert"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format:staged && npm run lint",
+      "pre-push": "npm run migration:revert && npm run migration:run && npm run test"
+    }
   },
   "dependencies": {
     "@nestjs/common": "^6.0.2",
@@ -26,6 +33,7 @@
     "@nestjs/typeorm": "^6.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
     "joi": "^14.3.1",
@@ -42,22 +50,26 @@
     "@types/body-parser": "^1.17.0",
     "@types/cors": "^2.8.4",
     "@types/express": "^4.16.1",
+    "@types/helmet": "^0.0.43",
     "@types/jest": "^24.0.11",
     "@types/joi": "^14.3.2",
     "@types/jsonwebtoken": "^8.3.2",
     "@types/lodash": "^4.14.123",
     "@types/node": "^11.11.5",
+    "@types/prettier": "^1.18.3",
     "@types/supertest": "^2.0.7",
     "@types/winston": "^2.4.4",
-    "@types/helmet": "^0.0.43",
     "env-cmd": "^8.0.2",
+    "husky": "^3.0.9",
     "jest": "^24.5.0",
     "nodemon": "^1.18.10",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^2.0.0",
     "rimraf": "^2.6.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.0.3",
-    "typescript": "^3.3.4000",
-    "tslint": "^5.14.0"
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.4000"
   }
 }

@@ -1,4 +1,3 @@
-
 import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
 import * as Joi from 'joi';
 
@@ -6,22 +5,22 @@ import * as Joi from 'joi';
 
 @Injectable()
 export abstract class JoiValidationPipe implements PipeTransform<any> {
+  public transform(value: any, metadata: ArgumentMetadata) {
+    const result = Joi.validate(value, this.buildSchema());
 
-    public transform(value: any, metadata: ArgumentMetadata) {
-
-        const result = Joi.validate(value, this.buildSchema());
-
-        if (result.error !== null) {
-            throw new HttpException({
-                message: 'Validation failed',
-                detail: result.error.message.replace(/"/g, `'`),
-                statusCode: HttpStatus.BAD_REQUEST
-            }, HttpStatus.BAD_REQUEST);
-        }
-
-        return result.value;
+    if (result.error !== null) {
+      throw new HttpException(
+        {
+          message: 'Validation failed',
+          detail: result.error.message.replace(/"/g, `'`),
+          statusCode: HttpStatus.BAD_REQUEST
+        },
+        HttpStatus.BAD_REQUEST
+      );
     }
 
-    public abstract buildSchema(): object;
+    return result.value;
+  }
 
+  public abstract buildSchema(): object;
 }
