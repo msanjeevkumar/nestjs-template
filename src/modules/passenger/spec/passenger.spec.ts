@@ -3,6 +3,9 @@ import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
 import { ApplicationModule } from '../../app.module';
+import { DatabaseModule } from '../../database';
+import { DatabaseService } from '../../database/database.service';
+import { Passenger } from '../model';
 
 /**
  * Passenger API end-to-end tests
@@ -13,12 +16,15 @@ import { ApplicationModule } from '../../app.module';
  */
 describe('Passenger API', () => {
   let app: INestApplication;
+  let dbService: DatabaseService;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [ApplicationModule]
+      imports: [ApplicationModule, DatabaseModule],
+      providers: [DatabaseService]
     }).compile();
-
+    dbService = module.get<DatabaseService>(DatabaseService);
+    await (await dbService.getRepository(Passenger)).clear();
     app = module.createNestApplication();
     await app.init();
   });

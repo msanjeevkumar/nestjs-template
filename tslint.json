@@ -80,6 +80,7 @@
     "max-classes-per-file": [true],
     "variable-name": [true],
     "one-line": [false],
-    "one-variable-per-declaration": [false]
+    "one-variable-per-declaration": [false],
+    "whitespace": [true, "check-module"]
   }
 }
