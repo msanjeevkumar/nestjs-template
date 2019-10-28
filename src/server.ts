@@ -10,7 +10,6 @@ import { CommonModule, LogInterceptor } from './modules/common';
 
 const API_DEFAULT_PORT = 3000;
 const API_DEFAULT_PREFIX = '/api/v1/';
-
 const SWAGGER_TITLE = 'Passenger API';
 const SWAGGER_DESCRIPTION = 'API used for passenger management';
 const SWAGGER_PREFIX = '/docs';
